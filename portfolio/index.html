@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Portfolio – Antoine Péchon</title>
+
+
+ <!-- Google Fonts -->
+ <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
+
+
+ <!-- Font Awesome (Instagram) -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+ <!-- AOS animations -->
+ <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+ <!-- CSS -->
+ <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+
+<!-- HEADER --> 
+ 
+<header class="site-header"> 
+    <nav class="nav-bar"> <ul class="nav-menu"> 
+        <li><a class="jump" href="#hero">Home</a></li> 
+        <li><a class="jump" href="#about">About</a></li> 
+        <li><a class="jump" href="#work">Projects</a></li> 
+        <li><a class="jump" href="#contact">Contact</a></li> 
+    </ul>
+
+ </header>
+
+
+ <!-- HERO -->
+ <section id="hero" class="hero">
+   <div class="overlay"></div>
+   <div class="hero-inner" data-aos="fade-up">
+     <h1 class="sriracha-regular">Antoine Péchon</h1>
+     <p class="sriracha-regular">Alternant Développeur Web   & Applicatif</p><br>
+     
+   </div>
+ </section>
+ <section id="about" class="about" aria-labelledby="about-title">
+   <div class="about-inner" data-aos="fade-up">
+   <div class="about-col about-info">
+   <h2 id="about-title" class="section-title">À propos de moi</h2>
+   <p class="about-intro"> Moi c’est Antoine Péchon, alternant en développement web & applicatif.
+J’aime imaginer, tester et transformer des besoins en outils simples et efficaces.
+Mon truc, c’est d’apprendre vite, coder propre, et surtout faire en sorte que ce que je développe serve vraiment aux gens.</p>
+
+En clair : un projet = une nouvelle occasion de progresser et de créer quelque chose qui a de l’impact. 🚀
+  
+   <div class="about-actions">
+   <a class="btn primary" href="/cv-antoine.pdf" target="_blank" rel="noopener">📄 Télécharger mon CV</a>
+  
+   </div>
+  
+   <div class="skills">
+   <h3 class="skills-title">Compétences</h3>
+   <ul class="skills-list" role="list">
+   <li><span class="badge">HTML5</span></li>
+   <li><span class="badge">CSS3 / Tailwind</span></li>
+   <li><span class="badge">JavaScript </span></li>
+   <li><span class="badge">React</span></li>
+  
+   </ul>
+   </div>
+   </div>
+  
+   <div class="about-col about-photo" aria-hidden="true">
+   <!-- Remplace src par ton portrait (format carré idéal). -->
+   <img src="/img/antoine.png" alt="Portrait d’Antoine Péchon" class="avatar" loading="lazy" />
+   </div>
+   </div>
+   </section>
+ <!-- WORK -->
+ <section id="work" class="work" data-aos="fade-up">
+   <h2 class="section-title">Projects</h2>
+
+
+<div class="gallery">
+  <a class="project" href="/projet_1/index.html" target="_blank">
+    <img src="/img/pokemon_ghibli.jpg" alt="Projet 1 — Pokédex">
+    <div class="caption">Projet 1 — Pokédex</div>
+  </a>
+
+  <a class="project" href="/projet_2/index.html" target="_blank" rel="noopener">
+  <img src="/img/emoji.png" alt="Projet 2 — Memory Emoji">
+  <div class="caption">Projet 2 — Memory Emoji</div>
+</a>
+
+</div>
+
+ </section>
+
+
+ <!-- CONTACT -->
+ <footer id="contact" class="site-footer">
+   <div class="footer-inner" data-aos="fade-up">
+     <h3>Contact</h3>
+     <p>Email : <a href="mailto:antoinepechon96@mail.com">antoinepechon96@mail.com</a></p>
+     <p>Tél : <a href="tel:+33666230029">+33 6 66 23 00 29</a></p>
+     <div class="social-links">
+       <a href="https://www.linkedin.com/in/antoinepechon" target="_blank" aria-label="LinkedIn">
+         <i class="fab fa-linkedin"></i>
+       </a>
+    
+     </div>
+     <p class="copy">© 2025 Antoine Péchon. All rights reserved.</p>
+   </div>
+ </footer>
+
+
+ <!-- JS -->
+ <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 900, easing: 'ease-out', once: true, offset: 60 });
+</script>
+
+ <script>
+   // Smooth scroll pour les liens d’ancrage (#hero, #work, #contact)
+   const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+
+
+   function smoothScrollTo(targetY, duration = 700){
+     const startY = window.scrollY;
+     const dist = targetY - startY;
+     let start;
+     function step(ts){
+       if(!start) start = ts;
+       const p = Math.min((ts - start) / duration, 1);
+       const eased = easeOutCubic(p);
+       window.scrollTo(0, startY + dist * eased);
+       if(p < 1) requestAnimationFrame(step);
+     }
+     requestAnimationFrame(step);
+   }
+
+
+   // Active le smooth scroll pour tous les liens <a href="#...">
+   document.querySelectorAll('a[href^="#"]').forEach(a=>{
+     a.addEventListener('click', e=>{
+       const id = a.getAttribute('href');
+       if(id.length > 1){
+         e.preventDefault();
+         const el = document.querySelector(id);
+         if(el){
+           const top = el.getBoundingClientRect().top + window.scrollY;
+           smoothScrollTo(top, 800);
+         }
+       }
+     });
+   });
+ </script>
+
+
+</body>
+</html>

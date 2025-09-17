@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pokédex — Ultra</title>
+  <meta name="description" content="Pokédex rapide, accessible, avec cache, favoris et couleurs par type." />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="icon" href="img/pokeball.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container row between center">
+      <h1 class="title">Pokédex</h1>
+
+      <form id="searchForm" class="search row" role="search" aria-label="Rechercher un Pokémon">
+        <label for="search" class="sr-only">Nom ou ID</label>
+        <input id="search" name="search" placeholder="Ex : pikachu ou 25" autocomplete="off" />
+        <button type="submit" class="btn">Rechercher</button>
+      </form>
+
+      <button id="favPanelBtn" class="icon-btn" aria-controls="favPanel" aria-expanded="false" title="Voir les favoris">
+        ★
+      </button>
+      <button id="themeToggle" class="icon-btn" title="Changer de thème">🎨</button>
+
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="pokedex">
+      <div class="pk-top">
+        <span class="pk-led big"></span>
+        <span class="pk-led"></span>
+        <span class="pk-led"></span>
+      </div>
+
+      <!-- Écran principal -->
+      <section class="card" id="card" aria-live="polite" aria-busy="false">
+        <div class="media">
+          <img id="poke-img" loading="lazy" decoding="async" alt="Illustration du Pokémon" />
+        </div>
+
+        <div class="meta">
+          <div class="row gap name-line">
+            <h2 id="poke-name" class="name">—</h2>
+            <span id="poke-id" class="id">#—</span>
+            <button id="favBtn" class="icon-btn" aria-pressed="false" title="Ajouter aux favoris">★</button>
+          </div>
+
+          <div id="types" class="types row wrap gap" aria-label="Types"></div>
+
+          <dl class="facts">
+            <div><dt>Taille</dt><dd id="poke-height">—</dd></div>
+            <div><dt>Poids</dt><dd id="poke-weight">—</dd></div>
+            <div><dt>Base XP</dt><dd id="poke-xp">—</dd></div>
+          </dl>
+
+          <div id="stats" class="stats" aria-label="Statistiques"></div>
+        </div>
+      </section>
+
+      <nav class="row center gap actions" aria-label="Navigation Pokémon">
+        <button id="prev" type="button" aria-label="Précédent" class="btn ghost">◀ Précédent</button>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+        <button id="next" type="button" aria-label="Suivant" class="btn ghost">Suivant ▶</button>
+      </nav>
+    </section>
+  </main>
+
+  <!-- Panneau favoris -->
+  <aside id="favPanel" class="drawer" aria-hidden="true">
+    <div class="drawer-inner">
+      <div class="drawer-head">
+        <h3>Favoris</h3>
+        <button id="favClose" class="icon-btn" aria-label="Fermer">✕</button>
+      </div>
+      <div id="favList" class="fav-list"></div>
+      <button id="favClear" class="btn danger">Vider les favoris</button>
+    </div>
+  </aside>
+
+  <footer class="site-footer">
+    <div class="container muted">© 2025 Antoine Péchon · API : PokéAPI</div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

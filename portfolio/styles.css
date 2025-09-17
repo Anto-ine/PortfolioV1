@@ -1,0 +1,168 @@
+/* =========================
+   VARIABLES & RESET
+========================= */
+:root{
+  --bg:#fff;
+  --text:#111;
+  --accent:#D95E3F;     /* boutons / hover */
+  --accent2:#F2A65A;    /* Work (Projects) */
+  --beige:#E6D8B5;      /* About */
+  --gray-dark:#4B4B4B;  /* header/footer */
+  --shadow:0 6px 20px rgba(0,0,0,.08);
+
+  /* header */
+  --header-fg:#fff;
+  --header-bg:transparent;
+  --header-bg-solid:rgba(75,75,75,.9);
+  --header-border:rgba(255,255,255,.08);
+
+  /* projects */
+  --project-ratio: 16/10; /* hauteur uniforme des cartes */
+}
+
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0b0f14; --text:#e8e8e8; }
+}
+
+*{margin:0; padding:0; box-sizing:border-box;}
+html{scroll-behavior:auto;}
+body{font-family:'Work Sans',sans-serif; color:var(--text); line-height:1.6; background:var(--bg);}
+a{text-decoration:none; color:inherit;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:8px;}
+#hero,#about,#work,#contact{scroll-margin-top:96px;}
+
+/* =========================
+   HEADER
+========================= */
+.site-header{
+  position:fixed; inset:0 0 auto 0; padding:16px 24px;
+  background:var(--header-bg); z-index:9999;
+  transition:background .25s, backdrop-filter .25s, box-shadow .25s;
+}
+.site-header--solid{
+  background:var(--header-bg-solid); backdrop-filter:blur(6px);
+  box-shadow:0 2px 12px rgba(0,0,0,.18); border-bottom:1px solid var(--header-border);
+}
+.nav-bar{position:relative; display:flex; align-items:center; justify-content:center; max-width:1200px; margin:0 auto;}
+.nav-menu{list-style:none; display:flex; gap:40px;}
+.nav-menu a{color:var(--header-fg); font-weight:600; font-size:1.05rem; letter-spacing:.4px;}
+.nav-menu a.jump{display:inline-block; transition:transform 260ms cubic-bezier(.22,.9,.3,1.2);}
+@media (hover:hover){ .nav-menu a.jump:hover{ transform:translateY(-2px) scale(1.07);} }
+.nav-social{position:absolute; right:0; top:50%; transform:translateY(-50%); font-size:1.6rem; color:var(--header-fg);}
+
+/* =========================
+   SECTION TITLES / BUTTONS
+========================= */
+.section-title{ text-align:center; margin-bottom:60px; font-size:clamp(1.6rem,2.4vw,2rem); }
+.btn,.nav-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:10px 14px; border-radius:12px; font-weight:600; border:1px solid transparent;
+  transition:transform .2s, box-shadow .2s, background .2s;
+}
+.btn.primary,.nav-btn.primary{ background:var(--accent); color:#fff; box-shadow:var(--shadow);}
+@media (hover:hover){ .btn:hover,.nav-btn:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,.15);} }
+
+/* =========================
+   HERO
+========================= */
+.hero{
+  min-height:100vh; padding:80px 20px; display:flex; align-items:center; justify-content:center;
+  text-align:center; color:#fff; position:relative; background:url("../img/totoro.png") center/cover no-repeat;
+}
+.hero::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.44); }
+.hero .hero-inner{ position:relative; z-index:1; max-width:900px; margin:0 auto; }
+.hero h1{ font-family:"Sriracha",cursive; font-size:clamp(2.2rem,4.2vw,3.4rem); margin-bottom:16px; }
+.hero p{ font-size:clamp(1.05rem,1.6vw,1.3rem); }
+
+/* =========================
+   ABOUT
+========================= */
+.about{
+  padding:clamp(120px,14vw,160px) 20px;
+  background:#b35a3f ;
+}
+.about-inner{
+  display:grid; grid-template-columns:1.6fr 1fr; gap:clamp(24px,6vw,64px);
+  align-items:center; max-width:1200px; margin:0 auto;
+}
+@media (max-width:900px){ .about-inner{ grid-template-columns:1fr; } }
+.about .section-title{ margin-bottom:24px; }
+.about-intro{ font-size:clamp(1rem,1.4vw,1.08rem); opacity:.95; }
+.about-actions{ display:flex; gap:12px; flex-wrap:wrap; margin:20px 0 28px; }
+.skills{ margin-top:4px; }
+.skills-title{ font-size:1.02rem; margin-bottom:10px; opacity:.9; }
+.skills-list{ display:flex; flex-wrap:wrap; gap:10px; list-style:none; }
+.badge{ padding:8px 12px; border-radius:999px; background:rgba(0,0,0,.06); font-size:.92rem; }
+.about-photo{ display:grid; place-items:center; }
+.avatar{
+  width:320px; height:320px; border-radius:50%;
+  object-fit:cover; object-position:top; /* + de cheveux visibles */
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+/* =========================
+   WORK / PROJECTS
+========================= */
+.work{
+  padding:clamp(180px,20vw,240px) 20px; /* plus d’air */
+  background:#c8874d;
+  color:#111;
+}
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(280px,1fr));
+  gap:clamp(24px,5vw,64px);
+  max-width:1200px; margin:0 auto; padding:40px 0;
+}
+@media (max-width:980px){ .gallery{ grid-template-columns:1fr; max-width:720px; } }
+
+.gallery .project > img { border-radius: 20px !important; clip-path: inset(0 round 20px) !important; }
+
+/* Carte projet */
+.project{
+  position: relative;
+  display: block;
+  aspect-ratio: 16/10;
+  border-radius: 20px;     /* taille de l’arrondi du cadre */
+  overflow: hidden;        /* clippe tout ce qui dépasse */
+  background: transparent; /* pas de fond */
+}
+
+/* Image NON recadrée + coins arrondis visibles */
+.project > img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;        /* pas de coupe du visuel */
+  display: block;
+  border-radius: 40px;        /* arrondit l’image elle-même */
+  clip-path: inset(0 round 20px); /* force le clip arrondi (anti “rien ne change”) */
+}
+
+.project .caption{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  padding:12px; text-align:center; color:#fff; font-weight:700;
+  font-size:clamp(1rem,1.6vw,1.2rem);
+  background:rgba(0,0,0,.45); opacity:0; transition:opacity .4s ease;
+}
+.project:hover img{ transform:scale(1.06); filter:saturate(1.05); }
+.project:hover .caption{ opacity:1; }
+
+/* =========================
+   FOOTER
+========================= */
+.site-footer{
+  background:var(--gray-dark); color:#fff; padding:60px 20px; text-align:center;
+}
+.social-links a{
+  font-size:1.8rem; display:inline-flex; align-items:center; justify-content:center;
+  width:42px; height:42px; border-radius:10px; transition:transform .2s, background .2s;
+}
+@media (hover:hover){ .social-links a:hover{ transform:scale(1.1); background:rgba(255,255,255,.08);} }
+.copy{ margin-top:20px; font-size:.9rem; color:#c8c8c8; }
+
+/* =========================
+   ACCESSIBILITÉ
+========================= */
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+}

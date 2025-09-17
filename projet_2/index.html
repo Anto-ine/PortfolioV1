@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Memory Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="hud">
+      <span>⏱️ <span id="time">00:00</span></span>
+      <span>🔁 Coups: <span id="moves">0</span></span>
+      <span>🏆 Record: <span id="best">—</span></span>
+    </div>
+    <div class="actions">
+      <button id="size" type="button" aria-pressed="false">Taille : 4×4</button>
+      <button id="restart" type="button">Recommencer</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="board" class="board" role="grid" aria-label="Plateau 4 par 4"></div>
+  </main>
+
+  <div id="overlay" class="overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="title">
+      <h2 id="title">Bravo 🎉</h2>
+      <p>Temps : <strong id="final-time">00:00</strong> — Coups : <strong id="final-moves">0</strong></p>
+      <p id="record-line" hidden>🥇 Nouveau record !</p>
+      <div class="row">
+        <button id="again" class="primary" type="button">Rejouer</button>
+        <button id="close" type="button">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPORTANT: même dossier que styles.css et script.js -->
+  <script src="script.js" defer></script>
+</body>
+</html>
+

@@ -1,0 +1,140 @@
+/* ===== Variables globales (MAJ par le JS) ===== */
+:root {
+  --cols: 4;
+  --rows: 4;
+  --gap: 14px;
+  --topbar-h: 64px; /* le JS met la vraie valeur au chargement */
+}
+
+/* ===== Reset utile ===== */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: #e6eef8;
+  background: #0b1625 radial-gradient(1200px 600px at 50% -100px, rgba(255,255,255,.06), transparent);
+}
+
+/* ===== Top bar (HUD) ===== */
+.topbar {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  background: rgba(5, 12, 22, .8);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.topbar .hud { display: flex; gap: 16px; align-items: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.topbar .actions { display: flex; gap: 10px; }
+.topbar button {
+  padding: 8px 12px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.15);
+  background: #0f2138; color: #e6eef8; cursor: pointer;
+}
+.topbar button:hover { background: #133051; }
+.topbar button:active { transform: translateY(1px); }
+
+/* ===== Conteneur du plateau : centré et sans scroll ===== */
+.container {
+  max-width: none;
+  padding: 16px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  /* occupe toute la hauteur visible sous la topbar */
+  min-height: calc(100vh - var(--topbar-h));
+}
+
+/* ===== Grille responsive (magie ici) =====
+   On calcule la taille idéale d’une carte depuis la largeur ET la hauteur dispo,
+   puis on prend le min pour éviter tout scroll. */
+.board {
+  /* largeur/hauteur dispo (marges = 32px) */
+  --availW: calc(100vw - 32px);
+  --availH: calc(100vh - var(--topbar-h) - 32px);
+
+  /* taille carte dictée par la largeur disponible */
+  --card-w-w: calc( (var(--availW) - (var(--cols) - 1) * var(--gap)) / var(--cols) );
+
+  /* taille carte dictée par la hauteur dispo (ratio carte 3/4 => W = 0.75*H) */
+  --card-w-h: calc( ( (var(--availH) - (var(--rows) - 1) * var(--gap)) / var(--rows) ) * 0.75 );
+
+  /* taille finale = plus petite des deux */
+  --card-size: min(var(--card-w-w), var(--card-w-h));
+
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--card-size));
+  gap: var(--gap);
+  justify-content: center;
+
+  /* largeur exacte de la grille (utile pour la centrer proprement) */
+  width: calc(var(--cols) * var(--card-size) + (var(--cols) - 1) * var(--gap));
+}
+
+/* ===== Cartes + flip 3D ===== */
+.card {
+  width: var(--card-size);
+  aspect-ratio: 3 / 4;
+  position: relative;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  perspective: 1000px;
+  outline-offset: 4px;
+}
+.card:disabled { cursor: default; }
+
+.card-inner {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transition: transform .4s cubic-bezier(.2,.8,.2,1);
+}
+.card.flipped .card-inner { transform: rotateY(180deg); }
+
+.face {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-size: clamp(22px, 6vw, 42px);
+  border-radius: 14px;
+  backface-visibility: hidden;
+  box-shadow: 0 8px 22px rgba(0,0,0,.28);
+}
+.front { background: #111827; color: #fff; }
+.back  { background: #ffffff; color: #0b1625; transform: rotateY(180deg); }
+
+.matched .face.back {
+  box-shadow: 0 0 0 2px #10b981 inset, 0 12px 26px rgba(16,185,129,.25);
+}
+
+/* ===== Overlay (fin de partie) ===== */
+.overlay {
+  position: fixed; inset: 0; z-index: 5;
+  display: grid; place-items: center;
+  padding: 16px;
+  background: rgba(0,0,0,.5);
+}
+.modal {
+  width: 100%; max-width: 420px;
+  background: #0f2138; color: #e6eef8;
+  border-radius: 16px; padding: 22px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+  text-align: center;
+}
+.modal h2 { margin: 0 0 8px; }
+.modal .row { display: flex; gap: 10px; justify-content: center; margin-top: 18px; }
+.modal button {
+  padding: 10px 14px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.15);
+  background: #133051; color: #e6eef8; cursor: pointer;
+}
+.modal .primary { background: #10b981; border-color: #10b981; color: #0b1625; }
+.modal button:hover { filter: brightness(1.05); }
+
+/* ===== Petites optimisations mobiles ===== */
+@media (max-width: 480px) {
+  :root { --gap: 10px; }
+  .topbar { padding: 10px 12px; }
+  .topbar .hud { gap: 10px; font-size: 14px; }
+}
